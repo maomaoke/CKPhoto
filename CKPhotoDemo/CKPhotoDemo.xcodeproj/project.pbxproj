@@ -18,6 +18,9 @@
 		0859F66E1E0B74A500E3AB97 /* CKImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0859F66D1E0B74A500E3AB97 /* CKImageCollectionViewCell.m */; };
 		088C67681E0B7F7D0038F374 /* CKPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 088C67671E0B7F7D0038F374 /* CKPhoto.m */; };
 		088C676A1E0B809B0038F374 /* images.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 088C67691E0B809B0038F374 /* images.bundle */; };
+		08D297D81E138BD700E4CC88 /* CKPhotoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D297D71E138BD700E4CC88 /* CKPhotoBrowserController.m */; };
+		08D297DB1E138F3600E4CC88 /* CKPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D297DA1E138F3600E4CC88 /* CKPhotoPickerController.m */; };
+		08D297DE1E13944D00E4CC88 /* CKPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D297DD1E13944D00E4CC88 /* CKPhotoManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,12 @@
 		088C67661E0B7F7D0038F374 /* CKPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPhoto.h; sourceTree = "<group>"; };
 		088C67671E0B7F7D0038F374 /* CKPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPhoto.m; sourceTree = "<group>"; };
 		088C67691E0B809B0038F374 /* images.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = images.bundle; sourceTree = "<group>"; };
+		08D297D61E138BD700E4CC88 /* CKPhotoBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPhotoBrowserController.h; sourceTree = "<group>"; };
+		08D297D71E138BD700E4CC88 /* CKPhotoBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPhotoBrowserController.m; sourceTree = "<group>"; };
+		08D297D91E138F3600E4CC88 /* CKPhotoPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPhotoPickerController.h; sourceTree = "<group>"; };
+		08D297DA1E138F3600E4CC88 /* CKPhotoPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPhotoPickerController.m; sourceTree = "<group>"; };
+		08D297DC1E13944D00E4CC88 /* CKPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPhotoManager.h; sourceTree = "<group>"; };
+		08D297DD1E13944D00E4CC88 /* CKPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPhotoManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +115,8 @@
 				0859F66C1E0B74A500E3AB97 /* CKImageCollectionViewCell.h */,
 				0859F66D1E0B74A500E3AB97 /* CKImageCollectionViewCell.m */,
 				088C67651E0B7D260038F374 /* Model */,
+				08D297DC1E13944D00E4CC88 /* CKPhotoManager.h */,
+				08D297DD1E13944D00E4CC88 /* CKPhotoManager.m */,
 			);
 			path = CKPhotoView;
 			sourceTree = "<group>";
@@ -122,6 +133,10 @@
 		088C676B1E0BA7630038F374 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				08D297D61E138BD700E4CC88 /* CKPhotoBrowserController.h */,
+				08D297D71E138BD700E4CC88 /* CKPhotoBrowserController.m */,
+				08D297D91E138F3600E4CC88 /* CKPhotoPickerController.h */,
+				08D297DA1E138F3600E4CC88 /* CKPhotoPickerController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -198,13 +213,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08D297DE1E13944D00E4CC88 /* CKPhotoManager.m in Sources */,
 				0859F66B1E0B748F00E3AB97 /* CKCollectionViewCell.m in Sources */,
 				0859F6561E0B6FDF00E3AB97 /* ViewController.m in Sources */,
 				0859F6531E0B6FDF00E3AB97 /* AppDelegate.m in Sources */,
 				0859F6501E0B6FDF00E3AB97 /* main.m in Sources */,
 				088C67681E0B7F7D0038F374 /* CKPhoto.m in Sources */,
+				08D297D81E138BD700E4CC88 /* CKPhotoBrowserController.m in Sources */,
 				0859F66E1E0B74A500E3AB97 /* CKImageCollectionViewCell.m in Sources */,
 				0859F6681E0B706400E3AB97 /* CKPhotoView.m in Sources */,
+				08D297DB1E138F3600E4CC88 /* CKPhotoPickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

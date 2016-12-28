@@ -131,4 +131,18 @@
     return _collectionView;
 }
 
+
+- (void)addPhotos:(NSArray<UIImage *> *)image {
+    NSMutableArray *mArray = [NSMutableArray arrayWithCapacity:image.count];
+    
+    [image enumerateObjectsUsingBlock:^(UIImage * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CKPhoto *photo = [[CKPhoto alloc] init];
+        photo.image = obj;
+        [mArray addObject:photo];
+    }];
+    [self.photoArray addObjectsFromArray:mArray];
+    [self calculatePhotoViewHeight];
+    [self.collectionView reloadData];
+}
+
 @end

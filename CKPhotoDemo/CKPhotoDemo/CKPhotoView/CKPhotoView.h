@@ -20,7 +20,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame columnCount:(NSInteger)columnCount;
 
-
+- (void)addPhotos:(NSArray <UIImage *> *)image;
 /**
  默认为8
  */
