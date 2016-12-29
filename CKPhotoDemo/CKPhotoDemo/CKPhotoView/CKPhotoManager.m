@@ -68,4 +68,8 @@
     }
 }
 
++ (PHAuthorizationStatus)authorizationStatus {
+    return [PHPhotoLibrary authorizationStatus];
+}
+
 @end

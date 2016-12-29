@@ -17,6 +17,7 @@ typedef void(^CKPhotoAllThumbnailBlock)(NSArray <UIImage *> *images);
 + (instancetype)sharedMangaer;
 @property (nonatomic, weak, readonly) PHCachingImageManager *imageManager;
 
++ (PHAuthorizationStatus)authorizationStatus;
 
 - (void)fetchAllThumbnailPhotoWithImageSize:(CGSize)size completionHandler:(CKPhotoAllThumbnailBlock)handler;
 
