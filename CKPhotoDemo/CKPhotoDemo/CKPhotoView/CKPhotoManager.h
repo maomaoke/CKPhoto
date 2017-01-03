@@ -12,6 +12,8 @@
 typedef void(^CKPhotoAllAssetBlock)(NSArray <PHAsset *> *assets);
 typedef void(^CKPhotoAllThumbnailBlock)(NSArray <UIImage *> *images);
 
+//typedef void(^CKPhotoAllAlbumBlock)(NSArray <>);
+
 @interface CKPhotoManager : NSObject
 
 + (instancetype)sharedMangaer;
@@ -22,5 +24,7 @@ typedef void(^CKPhotoAllThumbnailBlock)(NSArray <UIImage *> *images);
 - (void)fetchAllThumbnailPhotoWithImageSize:(CGSize)size completionHandler:(CKPhotoAllThumbnailBlock)handler;
 
 - (void)fetchAllPhotoWithCompletionHandler:(CKPhotoAllAssetBlock)handler;
+
+//- (void)fetchAllAlbumsWithCompletionHandler:()
 
 @end

@@ -10,4 +10,16 @@
 
 @interface CKPhotoPickerController : UINavigationController
 
+- (instancetype)initWithMaxCount:(NSInteger)maxCount delegate:(id)delegate;
+
+@property (nonatomic, weak) id pickerDelegate;
+
+@property (nonatomic, assign) NSInteger maxCount;
+
+@end
+
+@interface CKCollectionListController : UITableViewController
+
+@property (nonatomic, strong) NSArray *albums;
+
 @end
