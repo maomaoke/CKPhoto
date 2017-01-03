@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080BE3A31E1B3B040030D7B1 /* CKAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 080BE3A21E1B3B040030D7B1 /* CKAlbum.m */; };
 		0859F6501E0B6FDF00E3AB97 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0859F64F1E0B6FDF00E3AB97 /* main.m */; };
 		0859F6531E0B6FDF00E3AB97 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0859F6521E0B6FDF00E3AB97 /* AppDelegate.m */; };
 		0859F6561E0B6FDF00E3AB97 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0859F6551E0B6FDF00E3AB97 /* ViewController.m */; };
@@ -25,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		080BE3A11E1B3B040030D7B1 /* CKAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKAlbum.h; sourceTree = "<group>"; };
+		080BE3A21E1B3B040030D7B1 /* CKAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKAlbum.m; sourceTree = "<group>"; };
 		0859F64B1E0B6FDF00E3AB97 /* CKPhotoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CKPhotoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0859F64F1E0B6FDF00E3AB97 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0859F6511E0B6FDF00E3AB97 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -124,6 +127,8 @@
 			children = (
 				088C67661E0B7F7D0038F374 /* CKPhoto.h */,
 				088C67671E0B7F7D0038F374 /* CKPhoto.m */,
+				080BE3A11E1B3B040030D7B1 /* CKAlbum.h */,
+				080BE3A21E1B3B040030D7B1 /* CKAlbum.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -237,6 +242,7 @@
 				DC4073191E1B39AE00BA6613 /* CKImageCollectionViewCell.m in Sources */,
 				DC40731A1E1B39AE00BA6613 /* CKPhotoView.m in Sources */,
 				08D297DB1E138F3600E4CC88 /* CKPhotoPickerController.m in Sources */,
+				080BE3A31E1B3B040030D7B1 /* CKAlbum.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

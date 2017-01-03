@@ -68,6 +68,17 @@
     }
 }
 
+- (void)fetchAllAlbumsWithCompletionHandler:(CKPhotoAllAlbumBlock)handler {
+    
+    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
+                                                                     subtype:PHAssetCollectionSubtypeAny
+                                                                     options:nil];
+//    for (<#type *object#> in <#collection#>) {
+//        <#statements#>
+//    }
+}
+
+
 + (PHAuthorizationStatus)authorizationStatus {
     return [PHPhotoLibrary authorizationStatus];
 }

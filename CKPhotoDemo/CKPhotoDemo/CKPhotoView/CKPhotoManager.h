@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 
+@class CKAlbum;
+
 typedef void(^CKPhotoAllAssetBlock)(NSArray <PHAsset *> *assets);
 typedef void(^CKPhotoAllThumbnailBlock)(NSArray <UIImage *> *images);
 
-//typedef void(^CKPhotoAllAlbumBlock)(NSArray <>);
+typedef void(^CKPhotoAllAlbumBlock)(NSArray <CKAlbum *> *albums);
 
 @interface CKPhotoManager : NSObject
 
@@ -25,6 +27,6 @@ typedef void(^CKPhotoAllThumbnailBlock)(NSArray <UIImage *> *images);
 
 - (void)fetchAllPhotoWithCompletionHandler:(CKPhotoAllAssetBlock)handler;
 
-//- (void)fetchAllAlbumsWithCompletionHandler:()
+- (void)fetchAllAlbumsWithCompletionHandler:(CKPhotoAllAlbumBlock)handler;
 
 @end
