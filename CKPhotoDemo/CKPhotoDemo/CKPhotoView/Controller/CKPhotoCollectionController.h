@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+@class CKAlbum;
 
-@interface CKPhotoCollectionController : UICollectionViewController
+@interface CKPhotoCollectionController : UIViewController
+
+- (instancetype)initWithAlbum:(CKAlbum *)album isAutoScrollToBottom:(BOOL)isAutoScrollToBottom;
+
+
+@property (nonatomic, strong, readonly) CKAlbum *album;
+
+
 
 @end

@@ -8,52 +8,71 @@
 
 #import "CKPhotoCollectionController.h"
 
-@interface CKPhotoCollectionController ()
+#import "CKAlbum.h"
+#import "CKAsset.h"
 
+#import "CKPhotoManager.h"
+
+@interface CKPhotoCollectionController () <UICollectionViewDataSource, UICollectionViewDelegate>
+
+@property (nonatomic, assign) BOOL isAutoScrollToBottom;
+
+@property (nonatomic, strong) NSArray *dataList;
+
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @end
 
 @implementation CKPhotoCollectionController
 
-static NSString * const reuseIdentifier = @"Cell";
+static NSString * const reuseIdentifier = @"CKPhotoCollectionControllerCell";
+
+
+- (instancetype)initWithAlbum:(CKAlbum *)album isAutoScrollToBottom:(BOOL)isAutoScrollToBottom {
+    if (self = [super init]) {
+        _album = album;
+        self.isAutoScrollToBottom = isAutoScrollToBottom;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [self setupUI];
+    [self setupData];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.collectionView.frame = self.view.frame;
+}
+
+- (void)setupUI {
+    self.navigationItem.title = self.album.name;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(didClickCancelButton:)];
     
-    // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    [self.view addSubview:self.collectionView];
+}
+
+- (void)setupData {
     
-    // Do any additional setup after loading the view.
+    [[CKPhotoManager sharedMangaer] fetchAssetsFromResult:self.album.fetchResult completionHandler:^(NSArray<CKAsset *> *assets) {
+        self.dataList = assets;
+        [self.collectionView reloadData];
+    }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)didClickCancelButton:(UIBarButtonItem *)sender {
+    
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
-}
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
-    return 0;
+
+    return self.dataList.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -94,5 +113,25 @@ static NSString * const reuseIdentifier = @"Cell";
 	
 }
 */
+
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.flowLayout];
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.bounces = NO;
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+    }
+    return _collectionView;
+}
+
+- (UICollectionViewFlowLayout *)flowLayout {
+    if (!_flowLayout) {
+        _flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        _flowLayout.minimumLineSpacing = 0;
+        _flowLayout.minimumInteritemSpacing = 0;
+    }
+    return _flowLayout;
+}
 
 @end

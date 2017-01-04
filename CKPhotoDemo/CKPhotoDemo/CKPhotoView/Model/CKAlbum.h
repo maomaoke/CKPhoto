@@ -12,10 +12,19 @@
 
 @interface CKAlbum : NSObject
 
+/**
+ 相册中的资源结果集
+ */
 @property (nonatomic, strong) PHFetchResult *fetchResult;
 
+/**
+ 相册名称
+ */
 @property (nonatomic, copy) NSString *name;
 
+/**
+ 相册中图片数量
+ */
 @property (nonatomic, assign, readonly) NSUInteger photoCounts;
 
 - (instancetype)initWithFetchResult:(PHFetchResult *)result name:(NSString *)name;

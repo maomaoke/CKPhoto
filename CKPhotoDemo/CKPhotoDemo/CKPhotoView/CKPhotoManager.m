@@ -9,6 +9,7 @@
 #import "CKPhotoManager.h"
 
 #import "CKAlbum.h"
+#import "CKAsset.h"
 
 @implementation CKPhotoManager
 
@@ -33,10 +34,11 @@
 - (void)fetchAllThumbnailPhotoWithImageSize:(CGSize)size completionHandler:(CKPhotoAllThumbnailBlock)handler {
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    options.synchronous = YES;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize newSize = CGSizeMake(size.width * scale, size.height * scale);
     NSMutableArray *mArray = [NSMutableArray array];
-    [self fetchAllPhotoWithCompletionHandler:^(NSArray<PHAsset *> *assets) {
+    [self fetchAllAssetWithCompletionHandler:^(NSArray<PHAsset *> *assets) {
 //        dispatch_group_t group = dispatch_group_create();
         [assets enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 //            dispatch_group_enter(group);
@@ -55,8 +57,9 @@
     }];
 }
 
-- (void)fetchAllPhotoWithCompletionHandler:(CKPhotoAllAssetBlock)handler {
+- (void)fetchAllAssetWithCompletionHandler:(CKPhotoAllAssetBlock)handler {
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    
     //只选择照片
     options.predicate = [NSPredicate predicateWithFormat:@"mediaType = %ld", PHAssetMediaTypeImage];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
@@ -95,8 +98,10 @@
     }
 }
 
-- (void)fetchThumbnailPhotoWithAsset:(PHAsset *)asset thumbnailSize:(CGSize)thumbnailSize completionHandler:(CKPhotoThumbnailBlock)handler {
+- (void)fetchThumbnailImageWithAsset:(PHAsset *)asset thumbnailSize:(CGSize)thumbnailSize completionHandler:(CKPhotoThumbnailBlock)handler {
     PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];
+    imageRequestOptions.synchronous = YES;
+    imageRequestOptions.resizeMode = PHImageRequestOptionsResizeModeFast;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize targetSize = CGSizeMake(thumbnailSize.width * scale, thumbnailSize.height * scale);
     
@@ -105,6 +110,42 @@
             handler(result);
         }
     }];
+}
+
+- (void)fetchOriginImageWithAsset:(PHAsset *)asset completionHandler:(CKPhotoOriginImageBlock)handler {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.synchronous = YES;
+    options.resizeMode = PHImageRequestOptionsResizeModeExact;
+    [self.imageManager requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        if (handler) {
+            handler(result);
+        }
+    }];
+}
+
+- (void)fetchPreviewImageWithAsset:(PHAsset *)asset completionHandler:(CKPhotoPreViewBlock)handler {
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.synchronous = YES;
+    options.resizeMode = PHImageRequestOptionsResizeModeExact;
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGSize targetSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * scale, [UIScreen mainScreen].bounds.size.height * scale);
+    [self.imageManager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        if (handler) {
+            handler(result);
+        }
+    }];
+}
+
+
+- (void)fetchAssetsFromResult:(PHFetchResult *)result completionHandler:(CKPhotoAssetFromResultBlock)handler {
+    NSMutableArray *mArray = [NSMutableArray arrayWithCapacity:result.count];
+    [result enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CKAsset *asset = [[CKAsset alloc] initWithAsset:obj];
+        [mArray addObject:asset];
+    }];
+    if (handler) {
+        handler(mArray.copy);
+    }
 }
 
 

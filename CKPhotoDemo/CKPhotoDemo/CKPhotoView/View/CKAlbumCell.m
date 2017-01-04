@@ -64,7 +64,7 @@
     [nameString appendAttributedString:countString];
     self.titleLabel.attributedText = nameString;
     
-    [[CKPhotoManager sharedMangaer] fetchThumbnailPhotoWithAsset:[album.fetchResult lastObject] thumbnailSize:CGSizeMake(70, 70) completionHandler:^(UIImage *thumbnail) {
+    [[CKPhotoManager sharedMangaer] fetchThumbnailImageWithAsset:[album.fetchResult lastObject] thumbnailSize:CGSizeMake(70, 70) completionHandler:^(UIImage *thumbnail) {
         NSLog(@"%@", [NSThread currentThread]);
         self.iconView.image = thumbnail;
     }];

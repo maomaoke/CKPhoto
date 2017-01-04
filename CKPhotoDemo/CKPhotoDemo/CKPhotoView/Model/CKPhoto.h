@@ -14,6 +14,9 @@ typedef NS_ENUM(NSUInteger, CKPhotoType) {
     CKPhotoTypePhoto,
 };
 
+/**
+ 九宫格model
+ */
 @interface CKPhoto : NSObject <NSCopying>
 
 /**

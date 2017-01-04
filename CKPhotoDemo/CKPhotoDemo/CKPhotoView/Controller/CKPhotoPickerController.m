@@ -91,7 +91,7 @@
 }
 
 
-- (void)didClickCancelButton:(UIButton *)sender {
+- (void)didClickCancelButton:(UIBarButtonItem *)sender {
     
 }
 
