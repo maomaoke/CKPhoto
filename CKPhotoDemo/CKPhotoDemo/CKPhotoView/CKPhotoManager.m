@@ -8,6 +8,8 @@
 
 #import "CKPhotoManager.h"
 
+#import "CKAlbum.h"
+
 @implementation CKPhotoManager
 
 + (instancetype)sharedMangaer {
@@ -70,12 +72,39 @@
 
 - (void)fetchAllAlbumsWithCompletionHandler:(CKPhotoAllAlbumBlock)handler {
     
+    NSMutableArray *mArray = [NSMutableArray array];
+    
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
                                                                      subtype:PHAssetCollectionSubtypeAny
                                                                      options:nil];
-//    for (<#type *object#> in <#collection#>) {
-//        <#statements#>
-//    }
+    [smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        PHFetchOptions *option = [[PHFetchOptions alloc] init];
+        option.predicate = [NSPredicate predicateWithFormat:@"mediaType = %ld", PHAssetMediaTypeImage];
+        //相册
+        PHFetchResult *assetsResult = [PHAsset fetchAssetsInAssetCollection:obj options:option];
+        if (assetsResult.count) {
+            CKAlbum *album = [[CKAlbum alloc] initWithFetchResult:assetsResult.copy name:obj.localizedTitle];
+            [mArray addObject:album];
+        }
+    }];
+    [mArray sortUsingComparator:^NSComparisonResult(CKAlbum * _Nonnull obj1, CKAlbum * _Nonnull obj2) {
+        return obj1.photoCounts > obj2.photoCounts ? NSOrderedAscending : NSOrderedDescending;
+    }];
+    if (handler) {
+        handler(mArray.copy);
+    }
+}
+
+- (void)fetchThumbnailPhotoWithAsset:(PHAsset *)asset thumbnailSize:(CGSize)thumbnailSize completionHandler:(CKPhotoThumbnailBlock)handler {
+    PHImageRequestOptions *imageRequestOptions = [[PHImageRequestOptions alloc] init];
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGSize targetSize = CGSizeMake(thumbnailSize.width * scale, thumbnailSize.height * scale);
+    
+    [self.imageManager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:imageRequestOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        if (handler) {
+            handler(result);
+        }
+    }];
 }
 
 

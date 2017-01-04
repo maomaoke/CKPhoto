@@ -8,6 +8,10 @@
 
 #import "CKAlbumCell.h"
 
+#import "CKAlbum.h"
+
+#import "CKPhotoManager.h"
+
 @interface CKAlbumCell ()
 
 @property (nonatomic, strong) UIImageView *iconView;
@@ -50,6 +54,20 @@
     
     CGFloat labelX = CGRectGetMaxX(self.iconView.frame) + 16;
     self.titleLabel.frame = CGRectMake(labelX, 0, self.contentView.frame.size.width - labelX - 16, imgWH);
+}
+
+- (void)setAlbum:(CKAlbum *)album {
+    _album = album;
+    
+    NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:album.name attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor blackColor]}];
+    NSAttributedString *countString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"  (%zd)",album.photoCounts] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    [nameString appendAttributedString:countString];
+    self.titleLabel.attributedText = nameString;
+    
+    [[CKPhotoManager sharedMangaer] fetchThumbnailPhotoWithAsset:[album.fetchResult lastObject] thumbnailSize:CGSizeMake(70, 70) completionHandler:^(UIImage *thumbnail) {
+        NSLog(@"%@", [NSThread currentThread]);
+        self.iconView.image = thumbnail;
+    }];
 }
 
 

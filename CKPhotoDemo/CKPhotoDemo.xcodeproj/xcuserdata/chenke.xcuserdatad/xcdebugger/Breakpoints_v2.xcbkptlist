@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CKPhotoDemo/CKPhotoView/CKPhotoManager.m"
-            timestampString = "504624856.310942"
+            timestampString = "505143697.105411"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "-fetchAllThumbnailPhotoWithImageSize:completionHandler:"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CKPhotoDemo/CKPhotoView/CKPhotoManager.m"
-            timestampString = "504624857.772196"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "-fetchAllThumbnailPhotoWithImageSize:completionHandler:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CKPhotoDemo/CKPhotoView/View/CKAlbumCell.m"
-            timestampString = "505059097.397223"
+            timestampString = "505143697.105411"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
             endingLineNumber = "52"
-            landmarkName = "-layoutSubviews"
+            landmarkName = "-fetchAllThumbnailPhotoWithImageSize:completionHandler:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

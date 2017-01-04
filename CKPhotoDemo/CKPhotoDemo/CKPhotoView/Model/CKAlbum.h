@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class PHFetchResult;
+
 @interface CKAlbum : NSObject
+
+@property (nonatomic, strong) PHFetchResult *fetchResult;
+
+@property (nonatomic, copy) NSString *name;
+
+@property (nonatomic, assign, readonly) NSUInteger photoCounts;
+
+- (instancetype)initWithFetchResult:(PHFetchResult *)result name:(NSString *)name;
 
 @end

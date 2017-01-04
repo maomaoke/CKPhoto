@@ -7,7 +7,17 @@
 //
 
 #import "CKAlbum.h"
+#import <Photos/Photos.h>
 
 @implementation CKAlbum
+
+- (instancetype)initWithFetchResult:(PHFetchResult *)result name:(NSString *)name {
+    if (self = [super init]) {
+        _fetchResult = result;
+        _name = name;
+        _photoCounts = result.count;
+    }
+    return self;
+}
 
 @end

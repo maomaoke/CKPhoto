@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class CKAlbum;
 
 @interface CKAlbumCell : UITableViewCell
+
+@property (nonatomic, strong) CKAlbum *album;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
 

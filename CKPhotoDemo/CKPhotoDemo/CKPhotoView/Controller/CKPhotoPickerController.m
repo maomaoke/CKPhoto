@@ -77,7 +77,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.rowHeight = 70.0f;
-    
     [CKAlbumCell registerCellForTableView:self.tableView];
 }
 
@@ -85,7 +84,10 @@
     if ([CKPhotoManager authorizationStatus] != PHAuthorizationStatusAuthorized) {
         return;
     }
-    [CKPhotoManager sharedMangaer];
+    [[CKPhotoManager sharedMangaer] fetchAllAlbumsWithCompletionHandler:^(NSArray<CKAlbum *> *albums) {
+        self.albums = albums;
+        [self.tableView reloadData];
+    }];
 }
 
 
@@ -101,6 +103,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CKAlbumCell *cell = [CKAlbumCell cellWithTableView:tableView indexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.album = self.albums[indexPath.row];
     return cell;
 }
 
