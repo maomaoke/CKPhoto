@@ -34,6 +34,8 @@
     self.iconView = ({
         UIImageView *imgView = [[UIImageView alloc] init];
         imgView.userInteractionEnabled = YES;
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
+        imgView.clipsToBounds = YES;
         imgView;
     });
     self.titleLabel = ({

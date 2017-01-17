@@ -7,25 +7,37 @@
 //
 
 #import "CKPhotoCollectionController.h"
+#import "CKPhotoPreviewController.h"
+
+#import "CKCollectionBar.h"
+#import "CKCollectionCell.h"
 
 #import "CKAlbum.h"
 #import "CKAsset.h"
 
 #import "CKPhotoManager.h"
 
-@interface CKPhotoCollectionController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface CKPhotoCollectionController () <UICollectionViewDataSource, UICollectionViewDelegate, CKCollectionCellDelegate, CKCollectionBarDelegate>
 
 @property (nonatomic, assign) BOOL isAutoScrollToBottom;
 
 @property (nonatomic, strong) NSArray *dataList;
 
+/**
+ 被选中的assets
+ */
+@property (nonatomic, strong) NSMutableArray *selectedDatas;
+
+
+@property (nonatomic, strong) CKCollectionBar *barView;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
+
 @end
 
 @implementation CKPhotoCollectionController
 
-static NSString * const reuseIdentifier = @"CKPhotoCollectionControllerCell";
+static CGFloat itemMargin = 3;
 
 
 - (instancetype)initWithAlbum:(CKAlbum *)album isAutoScrollToBottom:(BOOL)isAutoScrollToBottom {
@@ -45,7 +57,12 @@ static NSString * const reuseIdentifier = @"CKPhotoCollectionControllerCell";
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.collectionView.frame = self.view.frame;
+    self.collectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 50);
+    self.barView.frame = CGRectMake(0, CGRectGetMaxY(self.collectionView.frame), self.view.frame.size.width, 50);
+    
+    CGFloat itemWH = ((self.collectionView.frame.size.width - self.collectionView.contentInset.left - self.collectionView.contentInset.right) -  itemMargin * 3) / 4 ;
+    self.flowLayout.itemSize = CGSizeMake(itemWH, itemWH);
+    
 }
 
 - (void)setupUI {
@@ -53,6 +70,9 @@ static NSString * const reuseIdentifier = @"CKPhotoCollectionControllerCell";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(didClickCancelButton:)];
     
     [self.view addSubview:self.collectionView];
+    [CKCollectionCell registerCellWithColectionView:self.collectionView];
+    [self.view addSubview:self.barView];
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)setupData {
@@ -76,47 +96,74 @@ static NSString * const reuseIdentifier = @"CKPhotoCollectionControllerCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell
-    
+    CKCollectionCell *cell = [CKCollectionCell cellWithCollectionView:collectionView indexPath:indexPath];
+    CKAsset *asset = self.dataList[indexPath.item];
+    cell.asset = asset;
+    cell.delegate = self;
     return cell;
 }
 
 #pragma mark <UICollectionViewDelegate>
 
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    CKPhotoPreviewController *vc = [[CKPhotoPreviewController alloc] initWithAssets:self.dataList selectedAssets:@[] currentIndex:indexPath.item];
+    [self.navigationController pushViewController:vc animated:YES];
 }
-*/
 
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+#pragma mark - CKCollectionCellDelegate
+
+- (BOOL)collectionCell:(CKCollectionCell *)cell shouldSelectAsset:(CKAsset *)asset {
+    if (0) {
+        return NO;
+    }
+    
     return YES;
 }
-*/
 
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
+- (void)collectionCell:(CKCollectionCell *)cell didSelected:(BOOL)didSelected asset:(CKAsset *)asset {
+    
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    if (self.dataList.count <= indexPath.item) {
+        return;
+    }
+    CKAsset *data = self.dataList[indexPath.item];
+    
+    if (didSelected && ![self.selectedDatas containsObject:data]) {
+        [self.selectedDatas addObject:data];
+    } else if ([self.selectedDatas containsObject:data]) {
+        [self.selectedDatas removeObject:data];
+    }
+    NSLog(@"%@", self.selectedDatas);
+    //被选中相册通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:CKSelectAssetDidChangeNotification object:nil userInfo:@{@"count": @(self.selectedDatas.count)}];
+    
+    //bar view 回调
+    [self.barView updateBarWithAssets:self.selectedDatas.copy];
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
+
+#pragma mark - bar view delegate
+
+- (void)collectionBar:(CKCollectionBar *)barView didClickAcceptButton:(UIButton *)btn {
+    
 }
 
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
+
+- (CKCollectionBar *)barView {
+    if (!_barView) {
+        _barView = [[CKCollectionBar alloc] init];
+        _barView.delegate = self;
+    }
+    return _barView;
 }
-*/
+
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.flowLayout];
+        _collectionView.contentInset = UIEdgeInsetsMake(itemMargin, itemMargin, itemMargin, itemMargin);
+        _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.bounces = NO;
         _collectionView.dataSource = self;
@@ -128,10 +175,22 @@ static NSString * const reuseIdentifier = @"CKPhotoCollectionControllerCell";
 - (UICollectionViewFlowLayout *)flowLayout {
     if (!_flowLayout) {
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        _flowLayout.minimumLineSpacing = 0;
-        _flowLayout.minimumInteritemSpacing = 0;
+        _flowLayout.minimumLineSpacing = itemMargin;
+        _flowLayout.minimumInteritemSpacing = itemMargin;
     }
     return _flowLayout;
 }
+
+- (NSMutableArray *)selectedDatas {
+    if (!_selectedDatas) {
+        _selectedDatas = [NSMutableArray array];
+    }
+    return _selectedDatas;
+}
+
+
+#pragma mark - notification 
+
+NSString * const CKSelectAssetDidChangeNotification = @"CKSelectAssetDidChangeNotification";
 
 @end

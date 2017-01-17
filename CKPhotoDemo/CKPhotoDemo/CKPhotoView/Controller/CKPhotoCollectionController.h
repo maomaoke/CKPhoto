@@ -17,5 +17,8 @@
 @property (nonatomic, strong, readonly) CKAlbum *album;
 
 
-
+/**
+ * 通知
+ */
+extern NSString * const CKSelectAssetDidChangeNotification;
 @end

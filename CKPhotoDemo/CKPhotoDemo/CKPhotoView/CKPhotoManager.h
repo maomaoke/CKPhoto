@@ -29,6 +29,8 @@ typedef void(^CKPhotoAssetFromResultBlock)(NSArray <CKAsset *> *assets);
 
 + (PHAuthorizationStatus)authorizationStatus;
 
++ (void)requestAuthorization:(void(^)(PHAuthorizationStatus status))handler;
+
 - (void)fetchAllThumbnailPhotoWithImageSize:(CGSize)size completionHandler:(CKPhotoAllThumbnailBlock)handler;
 
 - (void)fetchAllAssetWithCompletionHandler:(CKPhotoAllAssetBlock)handler;

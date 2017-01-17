@@ -7,6 +7,7 @@
 //
 
 #import "CKPhotoPickerController.h"
+#import "CKPhotoCollectionController.h"
 
 #import "CKAlbumCell.h"
 
@@ -82,8 +83,15 @@
 
 - (void)setupData {
     if ([CKPhotoManager authorizationStatus] != PHAuthorizationStatusAuthorized) {
+        [CKPhotoManager requestAuthorization:^(PHAuthorizationStatus status) {
+            [self fetchAlbumsData];
+        }];
         return;
     }
+    [self fetchAlbumsData];
+}
+
+- (void)fetchAlbumsData {
     [[CKPhotoManager sharedMangaer] fetchAllAlbumsWithCompletionHandler:^(NSArray<CKAlbum *> *albums) {
         self.albums = albums;
         [self.tableView reloadData];
@@ -112,6 +120,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    CKPhotoCollectionController *vc = [[CKPhotoCollectionController alloc] initWithAlbum:self.albums[indexPath.row] isAutoScrollToBottom:YES];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

@@ -153,4 +153,8 @@
     return [PHPhotoLibrary authorizationStatus];
 }
 
++ (void)requestAuthorization:(void(^)(PHAuthorizationStatus status))handler {
+    [PHPhotoLibrary requestAuthorization:handler];
+}
+
 @end

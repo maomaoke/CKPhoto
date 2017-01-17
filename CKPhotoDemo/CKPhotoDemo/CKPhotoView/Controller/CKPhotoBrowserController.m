@@ -10,13 +10,18 @@
 
 @interface CKPhotoBrowserController ()
 
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @end
 
 @implementation CKPhotoBrowserController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    
 }
+
+
 
 @end

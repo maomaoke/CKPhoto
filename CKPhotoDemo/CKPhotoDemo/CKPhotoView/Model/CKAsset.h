@@ -24,5 +24,5 @@
 
 @property (nonatomic, strong, readonly) UIImage *previewImage;
 
-
+@property (nonatomic, assign) BOOL isSelected;
 @end
